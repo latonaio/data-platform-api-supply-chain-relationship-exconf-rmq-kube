@@ -187,3 +187,21 @@ type ProductionPlantRelationSDC struct {
 	Accepter  []string `json:"accepter"`
 	Deleted   bool     `json:"deleted"`
 }
+
+type TransactionRelationSDC struct {
+	ConnectionKey                      string `json:"connection_key"`
+	Result                             bool   `json:"result"`
+	RedisKey                           string `json:"redis_key"`
+	Filepath                           string `json:"filepath"`
+	APIStatusCode                      int    `json:"api_status_code"`
+	RuntimeSessionID                   string `json:"runtime_session_id"`
+	BusinessPartner                    *int   `json:"business_partner"`
+	ServiceLabel                       string `json:"service_label"`
+	SupplyChainRelationshipTransaction struct {
+		SupplyChainRelationshipID *int `json:"SupplyChainRelationshipID"`
+		Buyer                     *int `json:"Buyer"`
+		Seller                    *int `json:"Seller"`
+	} `json:"SupplyChainRelationshipTransaction"`
+	APISchema string   `json:"api_schema"`
+	Accepter  []string `json:"accepter"`
+}

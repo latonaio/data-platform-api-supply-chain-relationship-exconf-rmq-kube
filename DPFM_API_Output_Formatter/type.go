@@ -15,6 +15,7 @@ type MetaData struct {
 	SupplyChainRelationshipDeliveryRelation        *SupplyChainRelationshipDeliveryRelation        `json:"SupplyChainRelationshipDeliveryRelation,omitempty"`
 	SupplyChainRelationshipDeliveryPlantRelation   *SupplyChainRelationshipDeliveryPlantRelation   `json:"SupplyChainRelationshipDeliveryPlantRelation,omitempty"`
 	SupplyChainRelationshipProductionPlantRelation *SupplyChainRelationshipProductionPlantRelation `json:"SupplyChainRelationshipProductionPlantRelation,omitempty"`
+	SupplyChainRelationshipTransaction             *SupplyChainRelationshipTransaction             `json:"SupplyChainRelationshipTransaction,omitempty"`
 	APISchema                                      string                                          `json:"api_schema"`
 	Accepter                                       []string                                        `json:"accepter"`
 	Deleted                                        bool                                            `json:"deleted"`
@@ -81,4 +82,11 @@ type SupplyChainRelationshipProductionPlantRelation struct {
 	ProductionPlantBusinessPartner           int    `json:"ProductionPlantBusinessPartner"`
 	ProductionPlant                          string `json:"ProductionPlant"`
 	ExistenceConf                            bool   `json:"ExistenceConf"`
+}
+
+type SupplyChainRelationshipTransaction struct {
+	SupplyChainRelationshipID int  `json:"SupplyChainRelationshipID"`
+	Buyer                     int  `json:"Buyer"`
+	Seller                    int  `json:"Seller"`
+	ExistenceConf             bool `json:"ExistenceConf"`
 }

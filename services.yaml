@@ -9,12 +9,12 @@ spec:
   selector:
     matchLabels:
       run: data-platform-api-supply-chain-relationship-exconf-rmq-kube
-      app: SUPPLYCHAINRELATIONSHIP
+      app: SUPPLY_CHAIN_RELATIONSHIP
   template:
     metadata:
       labels:
         run: data-platform-api-supply-chain-relationship-exconf-rmq-kube
-        app: SUPPLYCHAINRELATIONSHIP
+        app: SUPPLY_CHAIN_RELATIONSHIP
     spec:
       nodeName: worker
       hostname: data-platform-api-supply-chain-relationship-exconf-rmq-kube

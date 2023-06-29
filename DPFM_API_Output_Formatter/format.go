@@ -27,6 +27,8 @@ func NewOutput(rmqMsg rabbitmq.RabbitmqMessage, exconf interface{}) (*MetaData, 
 		output.SupplyChainRelationshipDeliveryPlantRelation = exconf
 	case *SupplyChainRelationshipProductionPlantRelation:
 		output.SupplyChainRelationshipProductionPlantRelation = exconf
+	case *SupplyChainRelationshipTransaction:
+		output.SupplyChainRelationshipTransaction = exconf
 	default:
 		return nil, xerrors.Errorf("unknown type %+v", exconf)
 	}

@@ -33,7 +33,7 @@ func main() {
 	}
 	defer rmq.Stop()
 	for msg := range iter {
-		go dataCallProcess(ctx, c, db, msg)
+		go dataCallProcess(ctx, c, db, msg, rmq)
 	}
 }
 
@@ -42,6 +42,7 @@ func dataCallProcess(
 	c *config.Conf,
 	db *database.Mysql,
 	rmqMsg rabbitmq.RabbitmqMessage,
+	rmq *rabbitmq.RabbitmqClient,
 ) {
 	defer rmqMsg.Success()
 	l := logger.NewLogger()
@@ -49,7 +50,7 @@ func dataCallProcess(
 	l.AddHeaderInfo(map[string]interface{}{"runtime_session_id": sessionId})
 	conf := dpfm_api_caller.NewExistenceConf(ctx, db, l)
 	exist := conf.Conf(rmqMsg)
-	rmqMsg.Respond(exist)
+	//rmqMsg.Respond(exist)
 
 	output, err := dpfm_api_output_formatter.NewOutput(rmqMsg, exist)
 	if err != nil {
@@ -58,6 +59,7 @@ func dataCallProcess(
 	}
 
 	l.JsonParseOut(output)
+	rmq.Send("data-platform-api-request-reads-cache-manager-receive-queue", output)
 }
 
 func getBodyHeader(data map[string]interface{}) string {
