@@ -53,6 +53,10 @@ type EC_MC struct {
 	Deleted       bool     `json:"deleted"`
 }
 
+type SDC struct {
+	Accepter []string `json:"accepter"`
+}
+
 type GeneralSDC struct {
 	ConnectionKey                  string `json:"connection_key"`
 	Result                         bool   `json:"result"`
@@ -88,6 +92,25 @@ type DeliveryRelationSDC struct {
 		Seller                            *int `json:"Seller"`
 		DeliverToParty                    *int `json:"DeliverToParty"`
 		DeliverFromParty                  *int `json:"DeliverFromParty"`
+	} `json:"SupplyChainRelationshipDeliveryRelation"`
+	APISchema string   `json:"api_schema"`
+	Accepter  []string `json:"accepter"`
+	Deleted   bool     `json:"deleted"`
+}
+
+type DeliveryRelationSDCBySRCID struct {
+	ConnectionKey                           string `json:"connection_key"`
+	Result                                  bool   `json:"result"`
+	RedisKey                                string `json:"redis_key"`
+	Filepath                                string `json:"filepath"`
+	APIStatusCode                           int    `json:"api_status_code"`
+	RuntimeSessionID                        string `json:"runtime_session_id"`
+	BusinessPartner                         *int   `json:"business_partner"`
+	ServiceLabel                            string `json:"service_label"`
+	SupplyChainRelationshipDeliveryRelation struct {
+		SupplyChainRelationshipID *int `json:"SupplyChainRelationshipID"`
+		Buyer                     *int `json:"Buyer"`
+		Seller                    *int `json:"Seller"`
 	} `json:"SupplyChainRelationshipDeliveryRelation"`
 	APISchema string   `json:"api_schema"`
 	Accepter  []string `json:"accepter"`

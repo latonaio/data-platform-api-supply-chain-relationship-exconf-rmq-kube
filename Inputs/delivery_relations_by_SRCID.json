@@ -8,15 +8,12 @@
   "filepath": "/var/lib/aion/Data/rededge_sdc/abcdef.json",
   "service_label": "SUPPLY_CHAIN_RELATIONSHIP",
   "SupplyChainRelationshipDeliveryRelation": {
-    "SupplyChainRelationshipID": 100000018,
-    "SupplyChainRelationshipDeliveryID": 110000018,
-    "Buyer": 201,
-    "Seller": 101,
-    "DeliverToParty": 201,
-    "DeliverFromParty": 101,
-    "api_schema": "DPFMSupplyChainRelationshipExconf",
-    "accepter": [
-      "All"
-    ]
-  }
+    "SupplyChainRelationshipID": 100000000,
+    "Buyer": 101,
+    "Seller": 201
+  },
+  "api_schema": "DPFMSupplyChainRelationshipExconf",
+  "accepter": [
+    "DeliveryRelationBySRCID"
+  ]
 }

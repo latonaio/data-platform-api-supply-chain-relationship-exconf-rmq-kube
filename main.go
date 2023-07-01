@@ -3,8 +3,10 @@ package main
 import (
 	"context"
 	dpfm_api_caller "data-platform-api-supply-chain-relationship-exconf-rmq-kube/DPFM_API_Caller"
+	dpfm_api_input_reader "data-platform-api-supply-chain-relationship-exconf-rmq-kube/DPFM_API_Input_Reader"
 	dpfm_api_output_formatter "data-platform-api-supply-chain-relationship-exconf-rmq-kube/DPFM_API_Output_Formatter"
 	"data-platform-api-supply-chain-relationship-exconf-rmq-kube/config"
+	"encoding/json"
 	"fmt"
 
 	"github.com/latonaio/golang-logging-library-for-data-platform/logger"
@@ -46,10 +48,20 @@ func dataCallProcess(
 ) {
 	defer rmqMsg.Success()
 	l := logger.NewLogger()
+
+	var input dpfm_api_input_reader.SDC
+	err := json.Unmarshal(rmqMsg.Raw(), &input)
+	if err != nil {
+		l.Error(err)
+		return
+	}
+
+	accepter := getAccepter(&input)
+
 	sessionId := getBodyHeader(rmqMsg.Data())
 	l.AddHeaderInfo(map[string]interface{}{"runtime_session_id": sessionId})
 	conf := dpfm_api_caller.NewExistenceConf(ctx, db, l)
-	exist := conf.Conf(rmqMsg)
+	exist := conf.Conf(rmqMsg, accepter)
 	//rmqMsg.Respond(exist)
 
 	output, err := dpfm_api_output_formatter.NewOutput(rmqMsg, exist)
@@ -65,4 +77,28 @@ func dataCallProcess(
 func getBodyHeader(data map[string]interface{}) string {
 	id := fmt.Sprintf("%v", data["runtime_session_id"])
 	return id
+}
+
+func getAccepter(input *dpfm_api_input_reader.SDC) []string {
+	accepter := input.Accepter
+	if len(input.Accepter) == 0 {
+		accepter = []string{"All"}
+	}
+
+	if accepter[0] == "All" {
+		accepter = []string{
+			"General",
+			"DeliveryRelation",
+			"DeliveryRelationBySRCID",
+			"DeliveryPlant",
+			"DeliveryPlantBySRCID",
+			"Billing",
+			"BillingBySRCID",
+			"Payment",
+			"PaymentBySRCID",
+			"Transaction",
+			"TransactionBySRCID",
+		}
+	}
+	return accepter
 }
