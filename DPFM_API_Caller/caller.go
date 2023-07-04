@@ -61,13 +61,13 @@ func (e *ExistenceConf) Conf(
 					ret = e.confSupplyChainRelationshipDeliveryRelation(input)
 				}
 			}()
-		case "DeliveryRelationBySRCID":
+		case "DeliveryRelationBySCRID":
 			func() {
 				_, ok = input["SupplyChainRelationshipDeliveryRelation"]
 				if ok {
-					input := &dpfm_api_input_reader.DeliveryRelationSDCBySRCID{}
+					input := &dpfm_api_input_reader.DeliveryRelationSDCBySCRID{}
 					err = json.Unmarshal(msg.Raw(), input)
-					ret = e.confSupplyChainRelationshipDeliveryRelationBySRCID(input)
+					ret = e.confSupplyChainRelationshipDeliveryRelationBySCRID(input)
 				}
 			}()
 		case "DeliveryPlant":
@@ -79,13 +79,13 @@ func (e *ExistenceConf) Conf(
 					ret = e.confSupplyChainRelationshipDeliveryPlantRelation(input)
 				}
 			}()
-		case "DeliveryPlantBySRCID":
+		case "DeliveryPlantBySCRID":
 			func() {
 				_, ok = input["SupplyChainRelationshipDeliveryPlantRelation"]
 				if ok {
 					input := &dpfm_api_input_reader.DeliveryPlantRelationSDC{}
 					err = json.Unmarshal(msg.Raw(), input)
-					ret = e.confSupplyChainRelationshipDeliveryPlantRelationByySRCID(input)
+					ret = e.confSupplyChainRelationshipDeliveryPlantRelationBySCRID(input)
 				}
 			}()
 		case "Billing":
@@ -97,7 +97,7 @@ func (e *ExistenceConf) Conf(
 					ret = e.confSupplyChainRelationshipBillingRelation(input)
 				}
 			}()
-		case "BillingBySRCID":
+		case "BillingBySCRID":
 			func() {
 				_, ok = input["SupplyChainRelationshipBillingRelation"]
 				if ok {
@@ -115,13 +115,13 @@ func (e *ExistenceConf) Conf(
 					ret = e.confSupplyChainRelationshipPaymentRelation(input)
 				}
 			}()
-		case "PaymentBySRCID":
+		case "PaymentBySCRID":
 			func() {
 				_, ok = input["SupplyChainRelationshipPaymentRelation"]
 				if ok {
 					input := &dpfm_api_input_reader.PaymentRelationSDC{}
 					err = json.Unmarshal(msg.Raw(), input)
-					ret = e.confSupplyChainRelationshipPaymentRelationBySRCID(input)
+					ret = e.confSupplyChainRelationshipPaymentRelationBySCRID(input)
 				}
 			}()
 		case "Transaction":
@@ -133,13 +133,13 @@ func (e *ExistenceConf) Conf(
 					ret = e.confSupplyChainRelationshipTransaction(input)
 				}
 			}()
-		case "TransactionBySRCID":
+		case "TransactionBySCRID":
 			func() {
 				_, ok = input["SupplyChainRelationshipTransaction"]
 				if ok {
 					input := &dpfm_api_input_reader.TransactionRelationSDC{}
 					err = json.Unmarshal(msg.Raw(), input)
-					ret = e.confSupplyChainRelationshipTransactionBySRCID(input)
+					ret = e.confSupplyChainRelationshipTransactionBySCRID(input)
 				}
 			}()
 
@@ -235,7 +235,7 @@ func (e *ExistenceConf) confSupplyChainRelationshipDeliveryRelation(input *dpfm_
 
 	rows, err := e.db.Query(
 		`SELECT SupplyChainRelationshipID, SupplyChainRelationshipDeliveryID, Buyer, Seller, DeliverToParty, DeliverFromParty
-		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_src_delivery_relation_data 
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_scr_delivery_relation_data 
 		WHERE (SupplyChainRelationshipID, SupplyChainRelationshipDeliveryID, Buyer, Seller, DeliverToParty, DeliverFromParty) = (?, ?, ?, ?, ?, ?);`, exconf.SupplyChainRelationshipID, exconf.SupplyChainRelationshipDeliveryID, exconf.Buyer, exconf.Seller, exconf.DeliverToParty, exconf.DeliverFromParty,
 	)
 	if err != nil {
@@ -248,8 +248,8 @@ func (e *ExistenceConf) confSupplyChainRelationshipDeliveryRelation(input *dpfm_
 	return &exconf
 }
 
-func (e *ExistenceConf) confSupplyChainRelationshipDeliveryRelationBySRCID(
-	input *dpfm_api_input_reader.DeliveryRelationSDCBySRCID,
+func (e *ExistenceConf) confSupplyChainRelationshipDeliveryRelationBySCRID(
+	input *dpfm_api_input_reader.DeliveryRelationSDCBySCRID,
 ) *dpfm_api_output_formatter.SupplyChainRelationshipDeliveryRelation {
 	exconf := dpfm_api_output_formatter.SupplyChainRelationshipDeliveryRelation{
 		ExistenceConf: false,
@@ -319,7 +319,7 @@ func (e *ExistenceConf) confSupplyChainRelationshipBillingRelation(input *dpfm_a
 
 	rows, err := e.db.Query(
 		`SELECT SupplyChainRelationshipID, SupplyChainRelationshipBillingID, Buyer, Seller, BillToParty, BillFromParty
-		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_src_billing_relation_data 
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_scr_billing_relation_data 
 		WHERE (SupplyChainRelationshipID, SupplyChainRelationshipBillingID, Buyer, Seller, BillToParty, BillFromParty) = (?, ?, ?, ?, ?, ?);`, exconf.SupplyChainRelationshipID, exconf.SupplyChainRelationshipBillingID, exconf.Buyer, exconf.Seller, exconf.BillToParty, exconf.BillFromParty,
 	)
 	if err != nil {
@@ -332,7 +332,7 @@ func (e *ExistenceConf) confSupplyChainRelationshipBillingRelation(input *dpfm_a
 	return &exconf
 }
 
-func (e *ExistenceConf) confSupplyChainRelationshipBillingRelationBySRCID(input *dpfm_api_input_reader.BillingRelationSDC) *dpfm_api_output_formatter.SupplyChainRelationshipBillingRelation {
+func (e *ExistenceConf) confSupplyChainRelationshipBillingRelationBySCRID(input *dpfm_api_input_reader.BillingRelationSDC) *dpfm_api_output_formatter.SupplyChainRelationshipBillingRelation {
 	exconf := dpfm_api_output_formatter.SupplyChainRelationshipBillingRelation{
 		ExistenceConf: false,
 	}
@@ -354,7 +354,7 @@ func (e *ExistenceConf) confSupplyChainRelationshipBillingRelationBySRCID(input 
 
 	rows, err := e.db.Query(
 		`SELECT *
-		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_src_billing_relation_data 
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_scr_billing_relation_data 
 		WHERE (SupplyChainRelationshipID, Buyer, Seller) = (?, ?, ?);`, exconf.SupplyChainRelationshipID, exconf.Buyer, exconf.Seller,
 	)
 	if err != nil {
@@ -413,7 +413,7 @@ func (e *ExistenceConf) confSupplyChainRelationshipPaymentRelation(input *dpfm_a
 
 	rows, err := e.db.Query(
 		`SELECT SupplyChainRelationshipID, SupplyChainRelationshipBillingID, SupplyChainRelationshipPaymentID,Buyer, Seller, BillToParty, BillFromParty, Payer, Payee
-		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_src_payment_relation_data 
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_scr_payment_relation_data 
 		WHERE (SupplyChainRelationshipID, SupplyChainRelationshipBillingID, SupplyChainRelationshipPaymentID,Buyer, Seller, BillToParty, BillFromParty, Payer, Payee) = (?, ?, ?, ?, ?, ?, ?, ?, ?);`, exconf.SupplyChainRelationshipID, exconf.SupplyChainRelationshipBillingID, exconf.SupplyChainRelationshipPaymentID, exconf.Buyer, exconf.Seller, exconf.BillToParty, exconf.BillFromParty, exconf.Payer, exconf.Payee,
 	)
 	if err != nil {
@@ -426,7 +426,7 @@ func (e *ExistenceConf) confSupplyChainRelationshipPaymentRelation(input *dpfm_a
 	return &exconf
 }
 
-func (e *ExistenceConf) confSupplyChainRelationshipPaymentRelationBySRCID(input *dpfm_api_input_reader.PaymentRelationSDC) *dpfm_api_output_formatter.SupplyChainRelationshipPaymentRelation {
+func (e *ExistenceConf) confSupplyChainRelationshipPaymentRelationBySCRID(input *dpfm_api_input_reader.PaymentRelationSDC) *dpfm_api_output_formatter.SupplyChainRelationshipPaymentRelation {
 	exconf := dpfm_api_output_formatter.SupplyChainRelationshipPaymentRelation{
 		ExistenceConf: false,
 	}
@@ -448,7 +448,7 @@ func (e *ExistenceConf) confSupplyChainRelationshipPaymentRelationBySRCID(input 
 
 	rows, err := e.db.Query(
 		`SELECT *
-		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_src_payment_relation_data 
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_scr_payment_relation_data 
 		WHERE (SupplyChainRelationshipID ,Buyer, Seller) = (?, ?, ?);`, exconf.SupplyChainRelationshipID, exconf.Buyer, exconf.Seller,
 	)
 	if err != nil {
@@ -507,7 +507,7 @@ func (e *ExistenceConf) confSupplyChainRelationshipDeliveryPlantRelation(input *
 
 	rows, err := e.db.Query(
 		`SELECT SupplyChainRelationshipID, SupplyChainRelationshipDeliveryID, SupplyChainRelationshipDeliveryPlantID, Buyer, Seller, DeliverToParty, DeliverFromParty, DeliverToPlant, DeliverFromPlant
-		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_src_delivery_plant_rel_data 
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_scr_delivery_plant_rel_data 
 		WHERE (SupplyChainRelationshipID, SupplyChainRelationshipDeliveryID, SupplyChainRelationshipDeliveryPlantID, Buyer, Seller, DeliverToParty, DeliverFromParty, DeliverToPlant, DeliverFromPlant) = (?, ?, ?, ?, ?, ?, ?, ?, ?);`, exconf.SupplyChainRelationshipID, exconf.SupplyChainRelationshipDeliveryID, exconf.SupplyChainRelationshipDeliveryPlantID, exconf.Buyer, exconf.Seller, exconf.DeliverToParty, exconf.DeliverFromParty, exconf.DeliverToPlant, exconf.DeliverFromPlant,
 	)
 	if err != nil {
@@ -520,7 +520,7 @@ func (e *ExistenceConf) confSupplyChainRelationshipDeliveryPlantRelation(input *
 	return &exconf
 }
 
-func (e *ExistenceConf) confSupplyChainRelationshipDeliveryPlantRelationByySRCID(input *dpfm_api_input_reader.DeliveryPlantRelationSDC) *dpfm_api_output_formatter.SupplyChainRelationshipDeliveryPlantRelation {
+func (e *ExistenceConf) confSupplyChainRelationshipDeliveryPlantRelationBySCRID(input *dpfm_api_input_reader.DeliveryPlantRelationSDC) *dpfm_api_output_formatter.SupplyChainRelationshipDeliveryPlantRelation {
 	exconf := dpfm_api_output_formatter.SupplyChainRelationshipDeliveryPlantRelation{
 		ExistenceConf: false,
 	}
@@ -541,7 +541,7 @@ func (e *ExistenceConf) confSupplyChainRelationshipDeliveryPlantRelationByySRCID
 	}
 	rows, err := e.db.Query(
 		`SELECT *
-		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_src_delivery_plant_rel_data 
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_scr_delivery_plant_relation_data 
 		WHERE (SupplyChainRelationshipID, Buyer, Seller) = (?, ?, ?);`, exconf.SupplyChainRelationshipID, exconf.Buyer, exconf.Seller,
 	)
 	if err != nil {
@@ -589,7 +589,7 @@ func (e *ExistenceConf) confSupplyChainRelationshipProductionPlantRelation(input
 
 	rows, err := e.db.Query(
 		`SELECT SupplyChainRelationshipID, SupplyChainRelationshipProductionPlantID, Buyer, Seller, ProductionPlantBusinessPartner, ProductionPlant
-		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_src_prod_plant_relation_data 
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_scr_prod_plant_relation_data 
 		WHERE (SupplyChainRelationshipID, SupplyChainRelationshipProductionPlantID, Buyer, Seller, ProductionPlantBusinessPartner, ProductionPlant) = (?, ?, ?, ?, ?, ?);`, exconf.SupplyChainRelationshipID, exconf.SupplyChainRelationshipProductionPlantID, exconf.Buyer, exconf.Seller, exconf.ProductionPlantBusinessPartner, exconf.ProductionPlant,
 	)
 	if err != nil {
@@ -602,7 +602,7 @@ func (e *ExistenceConf) confSupplyChainRelationshipProductionPlantRelation(input
 	return &exconf
 }
 
-func (e *ExistenceConf) confSupplyChainRelationshipTransactionBySRCID(input *dpfm_api_input_reader.TransactionRelationSDC) *dpfm_api_output_formatter.SupplyChainRelationshipTransaction {
+func (e *ExistenceConf) confSupplyChainRelationshipTransactionBySCRID(input *dpfm_api_input_reader.TransactionRelationSDC) *dpfm_api_output_formatter.SupplyChainRelationshipTransaction {
 	exconf := dpfm_api_output_formatter.SupplyChainRelationshipTransaction{
 		ExistenceConf: false,
 	}
@@ -625,7 +625,7 @@ func (e *ExistenceConf) confSupplyChainRelationshipTransactionBySRCID(input *dpf
 
 	rows, err := e.db.Query(
 		`SELECT SupplyChainRelationshipID, Buyer, Seller
-		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_src_transaction_data 
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_scr_transaction_data 
 		WHERE (SupplyChainRelationshipID, Buyer, Seller) = (?, ?, ?);`, exconf.SupplyChainRelationshipID, exconf.Buyer, exconf.Seller,
 	)
 	if err != nil {
@@ -661,7 +661,7 @@ func (e *ExistenceConf) confSupplyChainRelationshipTransaction(input *dpfm_api_i
 
 	rows, err := e.db.Query(
 		`SELECT SupplyChainRelationshipID, Buyer, Seller
-		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_src_transaction_data 
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_scr_transaction_data 
 		WHERE (SupplyChainRelationshipID, Buyer, Seller) = (?, ?, ?);`, exconf.SupplyChainRelationshipID, exconf.Buyer, exconf.Seller,
 	)
 	if err != nil {

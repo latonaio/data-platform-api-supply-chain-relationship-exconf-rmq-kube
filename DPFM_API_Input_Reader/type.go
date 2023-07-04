@@ -98,7 +98,7 @@ type DeliveryRelationSDC struct {
 	Deleted   bool     `json:"deleted"`
 }
 
-type DeliveryRelationSDCBySRCID struct {
+type DeliveryRelationSDCBySCRID struct {
 	ConnectionKey                           string `json:"connection_key"`
 	Result                                  bool   `json:"result"`
 	RedisKey                                string `json:"redis_key"`

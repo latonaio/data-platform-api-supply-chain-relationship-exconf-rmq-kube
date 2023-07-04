@@ -89,15 +89,15 @@ func getAccepter(input *dpfm_api_input_reader.SDC) []string {
 		accepter = []string{
 			"General",
 			"DeliveryRelation",
-			"DeliveryRelationBySRCID",
+			"DeliveryRelationBySCRID",
 			"DeliveryPlant",
-			"DeliveryPlantBySRCID",
+			"DeliveryPlantBySCRID",
 			"Billing",
-			"BillingBySRCID",
+			"BillingBySCRID",
 			"Payment",
-			"PaymentBySRCID",
+			"PaymentBySCRID",
 			"Transaction",
-			"TransactionBySRCID",
+			"TransactionBySCRID",
 		}
 	}
 	return accepter
